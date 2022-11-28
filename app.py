@@ -54,7 +54,7 @@ intents.integrations = False
 intents.webhooks = False
 intents.voice_states = False
 intents.guild_typing = False
-intents.message_content = False
+intents.message_content = True
 
 
 async def determine_prefix(bot, message):
@@ -301,10 +301,20 @@ async def tree_error(interaction, error):
     except discord.errors.NotFound:
         logging.info("Could not send the info of error")
 
-
+#Time in status
+async def jst_clock():
+    while not bot.is_closed():
+        try:
+            now = dtime.now(tz = timezone.utc) + timedelta(hours = 9)
+            timestr = now.strftime("%H:%M JST, %d/%m/%Y")
+            await bot.change_presence(activity=discord.Game(name=timestr))
+            await asyncio.sleep(60)
+        except ConnectionResetError:
+            logging.warn("Could not update JST Clock!")
 
 # List Coroutines to be executed
 coroutines = (
+    jst_clock(),
     member_handler.check_membership_routine(),
     member_handler.handle_verifies()
 )
