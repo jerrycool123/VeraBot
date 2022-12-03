@@ -13,7 +13,7 @@ _ = Translate.get_translation_function('utility')
 
 
 class DateModal(ui.Modal, title=_('Date Selection')):
-    date = ui.TextInput(label=_('What is the correct date?'), style=discord.TextStyle.short, required=True, min_length=8,
+    date = ui.TextInput(label=_('What is the correct date (dd/mm/yyyy)?'), style=discord.TextStyle.short, required=True, min_length=8,
                         max_length=10)
 
     async def on_submit(self, interaction: discord.Interaction):
