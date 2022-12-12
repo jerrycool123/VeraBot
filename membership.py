@@ -27,7 +27,7 @@ class Membership(commands.Cog):
         self.bot = bot
         self.member_handler = member_handler
 
-    @app_commands.command(name="verify", description=_("Tries to verify a screenshot for membership in the DMs"))
+    @app_commands.command(name="kirame", description=_("Tries to verify a screenshot for Sorahoshi Kirame's membership"))
     @app_commands.guild_only()
     async def verify(self, interaction: discord.Interaction, attachment: discord.Attachment, vtuber: str = None,
                      language: str = None):
