@@ -172,7 +172,7 @@ def dm_or_test_only():
 @commands.cooldown(verify_tries, 50, commands.BucketType.user)
 async def verify(ctx, *args):
     await ctx.send(
-        _("This command no longer works through DMs, please use the slash command '/verify' in the server instead."))
+        _("This command no longer works through DMs, please use the slash command '/kanata' in the server instead."))
 
 
 @verify.error
