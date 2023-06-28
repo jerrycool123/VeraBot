@@ -12,6 +12,7 @@ from datetime import timezone, timedelta
 import os
 import logging
 import gettext
+import requests
 # Internal
 from membership_handling import MembershipHandler
 from settings import Settings
@@ -49,6 +50,7 @@ db_pass = os.getenv("DB_PASS")
 db_url = os.getenv("DB_LINK")
 dm_log = int(os.getenv("DM_LOG"))
 stage = os.getenv("STAGE")
+status_api = os.getenv("STATUS_API")
 
 # Intents
 intents = discord.Intents.default()
@@ -307,11 +309,22 @@ async def tree_error(interaction, error):
     except discord.errors.NotFound:
         logging.info(_("Could not send the info of error"))
 
-#Time in status
+# Push heartbeat
+
+
+async def heartbeat():
+    while not bot.is_closed():
+        try:
+            requests.get(status_api)
+            await asyncio.sleep(60)
+        except ConnectionResetError:
+            logging.warn("Failed to send heartbeat")
+
+# Time in status
 async def jst_clock():
     while not bot.is_closed():
         try:
-            now = dtime.now(tz = timezone.utc) + timedelta(hours = 9)
+            now = dtime.now(tz=timezone.utc) + timedelta(hours=9)
             timestr = now.strftime("%H:%M JST, %d/%m/%Y")
             await bot.change_presence(activity=discord.Game(name=timestr))
             await asyncio.sleep(60)
@@ -321,6 +334,7 @@ async def jst_clock():
 # List Coroutines to be executed
 coroutines = (
     jst_clock(),
+    heartbeat(),
     member_handler.check_membership_routine(),
     member_handler.handle_verifies()
 )
