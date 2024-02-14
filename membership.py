@@ -33,7 +33,7 @@ class Membership(commands.Cog):
                      language: str = None):
         await interaction.response.send_message(content="""I'm going to retire in this server. Please use `/kirame` command provided by <@1203668745663287337> in this server, as the following picture shows: https://i.imgur.com/pEk2X38.png
 
-Alternatively, you can try the new **Auth Mode** - sign in with YouTube account and verify your membership on [the website](https://divine-bridge.jerrycool123.com/) with the following steps:
+Alternatively, you can try the new **Auth Mode** - sign in with YouTube account and verify your membership on the website: <https://divine-bridge.jerrycool123.com/> with the following steps:
 1. Sign in with your Discord account
 2. Click the "Apply" button of the membership role you would like to apply
 3. Click the "Sign in with Google" button and link your YouTube account to Divine Bridge
@@ -41,7 +41,7 @@ Alternatively, you can try the new **Auth Mode** - sign in with YouTube account 
 Once you are successfully verified, you don't have to do this again every month. Divine Bridge will automatically renew your membership duration with your authorized credentials.
 
 Please note that this verification method involves some considerations regarding information security and privacy.
-**You are strongly recommended to learn more about these issues in the "Why DivineBridge" section on the [homepage](https://divine-bridge.jerrycool123.com/)**.""", ephemeral=True)
+**You are strongly recommended to learn more about these issues in the "Why DivineBridge" section on the homepage: <https://divine-bridge.jerrycool123.com/>**.""", ephemeral=True)
         # if not attachment.content_type.startswith("image"):
         #     await interaction.response.send_message(_("The included attachment is not an image, please attach an image."),
         #                                             ephemeral=True)
