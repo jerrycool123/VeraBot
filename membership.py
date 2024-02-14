@@ -30,7 +30,7 @@ class Membership(commands.Cog):
     @app_commands.guild_only()
     async def verify(self, interaction: discord.Interaction, attachment: discord.Attachment, vtuber: str = None,
                      language: str = None):
-        await interaction.response.send_message(content="""I'm going to retire in this server. Please use `/kanata` command provided by <@1203668745663287337> in this server, as the following picture shows.""", file=File(filename="./guide.png"), ephemeral=True)
+        await interaction.response.send_message(content="I'm going to retire in this server. Please use `/kanata` command provided by <@1203668745663287337> in this server, as the following picture shows: https://i.imgur.com/Cpo1a4G.png", ephemeral=True)
         # if not attachment.content_type.startswith("image"):
         #     await interaction.response.send_message(_("The included attachment is not an image, please attach an image."),
         #                                             ephemeral=True)
