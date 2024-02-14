@@ -31,35 +31,36 @@ class Membership(commands.Cog):
     @app_commands.guild_only()
     async def verify(self, interaction: discord.Interaction, attachment: discord.Attachment, vtuber: str = None,
                      language: str = None):
-        if not attachment.content_type.startswith("image"):
-            await interaction.response.send_message(_("The included attachment is not an image, please attach an image."),
-                                                    ephemeral=True)
-            logging.info(_("Verify without screenshot from %s."), interaction.user.id)
-        await interaction.response.defer(ephemeral=True, thinking=True)
-        if vtuber or language:
-            if vtuber:
-                server = Utility.map_vtuber_to_server(vtuber)
-            elif Utility.is_multi_server(interaction.guild.id):
-                embed = Utility.create_supported_vtuber_embed()
-                await interaction.followup.send(content=_("Please use a valid supported VTuber!"), embed=embed,
-                                                ephemeral=True)
+        await interaction.response.send_message(content="I'm going to retire in this server. Please use `/kirame` command provided by <@1203668745663287337> in this server, as the following picture shows: https://i.imgur.com/pEk2X38.png", ephemeral=True)
+        # if not attachment.content_type.startswith("image"):
+        #     await interaction.response.send_message(_("The included attachment is not an image, please attach an image."),
+        #                                             ephemeral=True)
+        #     logging.info(_("Verify without screenshot from %s."), interaction.user.id)
+        # await interaction.response.defer(ephemeral=True, thinking=True)
+        # if vtuber or language:
+        #     if vtuber:
+        #         server = Utility.map_vtuber_to_server(vtuber)
+        #     elif Utility.is_multi_server(interaction.guild.id):
+        #         embed = Utility.create_supported_vtuber_embed()
+        #         await interaction.followup.send(content=_("Please use a valid supported VTuber!"), embed=embed,
+        #                                         ephemeral=True)
 
-            if language:
-                language = Utility.map_language(language)
-            else:
-                language = "eng"
+        #     if language:
+        #         language = Utility.map_language(language)
+        #     else:
+        #         language = "eng"
 
-            if server:
-                await self.member_handler.add_to_queue(interaction, attachment, server, language, vtuber)
-            else:
-                embed = Utility.create_supported_vtuber_embed()
-                await interaction.followup.send(content=_("Please use a valid supported VTuber!"), embed=embed,
-                                                ephemeral=True)
-        elif Utility.is_multi_server(interaction.guild.id):
-            embed = Utility.create_supported_vtuber_embed()
-            await interaction.followup.send(content=_("Please use a valid supported VTuber!"), embed=embed, ephemeral=True)
-        else:
-            await self.member_handler.add_to_queue(interaction, attachment, interaction.guild.id)
+        #     if server:
+        #         await self.member_handler.add_to_queue(interaction, attachment, server, language, vtuber)
+        #     else:
+        #         embed = Utility.create_supported_vtuber_embed()
+        #         await interaction.followup.send(content=_("Please use a valid supported VTuber!"), embed=embed,
+        #                                         ephemeral=True)
+        # elif Utility.is_multi_server(interaction.guild.id):
+        #     embed = Utility.create_supported_vtuber_embed()
+        #     await interaction.followup.send(content=_("Please use a valid supported VTuber!"), embed=embed, ephemeral=True)
+        # else:
+        #     await self.member_handler.add_to_queue(interaction, attachment, interaction.guild.id)
 
     @verify.error
     async def verify_error(self, interaction, error):
