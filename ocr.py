@@ -1,16 +1,16 @@
 #External
 import logging
-import os
+# import os
 
-from PIL import Image, ImageEnhance, ImageOps
-import requests
-import pytesseract as Tess
+# from PIL import Image, ImageEnhance, ImageOps
+# import requests
+# import pytesseract as Tess
 # Comment out this tesserocr import if changing stuff here when testing locally
-import tesserocr
+# import tesserocr
 #Python
-from functools import partial
+# from functools import partial
 import asyncio
-import gc
+# import gc
 #Internal
 from utility import Utility
 from translate import Translate
@@ -42,62 +42,63 @@ class OCR:
         # return tuple of two possible text: normal and inverted
 
         # Set partial function for image_to_text
-        if(cls.local):
-            logging.warn(_("Using local OCR!!!"))
-            img_to_txt = partial(Tess.image_to_string, timeout=44)
-        else:
-            tess_path = os.getenv("TESSDATA_PREFIX")
-            img_to_txt = partial(tesserocr.image_to_text, lang=lang, path = tess_path)
+        # if(cls.local):
+        #     logging.warn(_("Using local OCR!!!"))
+        #     img_to_txt = partial(Tess.image_to_string, timeout=44)
+        # else:
+        #     tess_path = os.getenv("TESSDATA_PREFIX")
+        #     img_to_txt = partial(tesserocr.image_to_text, lang=lang, path = tess_path)
 
-        # Get image from url
-        with requests.get(img_url, stream=True) as img_response:
-            img_response.raw.decode_content = True
+        # # Get image from url
+        # with requests.get(img_url, stream=True) as img_response:
+        #     img_response.raw.decode_content = True
 
 
-            with Image.open(img_response.raw) as img:
-                img.load()
+        #     with Image.open(img_response.raw) as img:
+        #         img.load()
 
-                width, height = img.size
+        #         width, height = img.size
                 
-                resize = False
-                if width > 1920:
-                    width = 1920
-                    resize = True
-                if height > 1080:
-                    height = 1080
-                    resize = True
-                if resize:
-                    img = img.resize((width, height))
+        #         resize = False
+        #         if width > 1920:
+        #             width = 1920
+        #             resize = True
+        #         if height > 1080:
+        #             height = 1080
+        #             resize = True
+        #         if resize:
+        #             img = img.resize((width, height))
 
 
-                img = img.crop((3, 0, img.size[0], img.size[1]))
-                resized = img.resize(
-                    (int(img.size[0] * size_factor), int(img.size[1] * size_factor)), Image.ANTIALIAS
-                )
-                enhancer = ImageEnhance.Sharpness(resized)
-                factor = 3
-                try:
-                    img = enhancer.enhance(factor)
-                except ValueError:
-                    img = ImageEnhance.Sharpness(img.convert('RGB'))
+        #         img = img.crop((3, 0, img.size[0], img.size[1]))
+        #         resized = img.resize(
+        #             (int(img.size[0] * size_factor), int(img.size[1] * size_factor)), Image.ANTIALIAS
+        #         )
+        #         enhancer = ImageEnhance.Sharpness(resized)
+        #         factor = 3
+        #         try:
+        #             img = enhancer.enhance(factor)
+        #         except ValueError:
+        #             img = ImageEnhance.Sharpness(img.convert('RGB'))
 
 
-                #remove alpha channel and invert image
-                if img.mode == "RGBA":
-                    background = Image.new("RGB", img.size, (255, 255, 255))
-                    background.paste(img, mask=img.split()[3] if len(img.split()) >= 4 else None) # 3 is the alpha channel
-                    img = background
+        #         #remove alpha channel and invert image
+        #         if img.mode == "RGBA":
+        #             background = Image.new("RGB", img.size, (255, 255, 255))
+        #             background.paste(img, mask=img.split()[3] if len(img.split()) >= 4 else None) # 3 is the alpha channel
+        #             img = background
 
-                # get text (run as coroutine to not block the event loop)
-                text = await cls.bot.loop.run_in_executor(None, img_to_txt, img)
-                logging.debug(_("Recognized text on %s:\n%s"), img_url, text)
+        #         # get text (run as coroutine to not block the event loop)
+        #         text = await cls.bot.loop.run_in_executor(None, img_to_txt, img)
+        #         logging.debug(_("Recognized text on %s:\n%s"), img_url, text)
 
-                # use inverted image
-                with ImageOps.invert(img) as inverted_img:
+        #         # use inverted image
+        #         with ImageOps.invert(img) as inverted_img:
 
-                    # get inverted text (run as coroutine to not block the event loop)
-                    inverted_text = await cls.bot.loop.run_in_executor(None, img_to_txt, inverted_img)
-                    logging.debug(_("Recognized inverted text on %s:\n%s"), img_url, inverted_text)
+        #             # get inverted text (run as coroutine to not block the event loop)
+        #             inverted_text = await cls.bot.loop.run_in_executor(None, img_to_txt, inverted_img)
+        #             logging.debug(_("Recognized inverted text on %s:\n%s"), img_url, inverted_text)
                     
-        gc.collect()
-        return (text, inverted_text)
+        # gc.collect()
+        # return (text, inverted_text)
+        return ("", "")
